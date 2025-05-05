@@ -14,6 +14,10 @@ class Region(models.Model):
 class Team(models.Model):
     name = models.CharField(unique=True, max_length=100)
     region = models.ForeignKey(Region, on_delete=models.CASCADE)
+    rank = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['region', 'rank']
     
     def __str__(self):
         return self.name
@@ -34,7 +38,5 @@ class Matchup(models.Model):
 
 class MatchupSource(models.Model):
     matchup = models.ForeignKey(Matchup, on_delete=models.CASCADE)
-
-
 
     

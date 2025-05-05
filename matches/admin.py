@@ -4,5 +4,11 @@ from .models import Region, Team, Room, Matchup, MatchupSource
 # Register your models here.
 
 admin.site.register(Region)
-admin.site.register(Team)
+admin.site.register(Room)
+
+@admin.register(Team)
+class TeamAdmin(admin.ModelAdmin):
+    list_display = ('name', 'region', 'rank')
+    list_filter = ('region',)
+    search_fields = ('name',)
 
