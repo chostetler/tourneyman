@@ -1,26 +1,16 @@
-<div class="card mb-3" style="max-width: 40rem; margin: 10px">
-    <h4 class="card-header text-white bg-primary"> 
-        <span> Match {{ match.id }} </span> 
+<div class="card mb-3 border-primary" style="max-width: 40rem; margin: 10px">
+    <h4 class="card-header text-white bg-primary"> Match {{ match.id }} 
         <span class='border badge rounded-pill bg-primary border-white'> 
-            <small>
             <i class="fa-solid fa-location-dot"></i> {{ match.room.name }} 
-            </small>
-        </span>
-        <span class='border badge rounded-pill bg-primary border-white'> 
-            <small>
-            <i class="fa-solid fa-clock"></i> {{ match.start_time|date:"D. h:m a" }} 
-            </small>
+            <i class="fa-solid fa-clock"></i>{{ match.start_time|date:"h:m a" }} 
         </span> 
     </h4> 
-    <table class="table table-bordered">
-        <colgroup>
-            <col style="width: 75%;">
-            <col style="width: 25%;">
+    <table class="table table-hover">
         <tbody>
-            <tr class="table-active">
+            <tr class="table-default">
             {% if match.home_team %}
                 <td> {{ match.home_team.name }} </td>
-                <td class="text-center"> 
+                <td> 
                     {% if match.home_score %}
                         {{ match.home_score }}
                     {% else %} 
@@ -37,7 +27,7 @@
             <tr class="table-default">
             {% if match.away_team %}
                 <td> {{ match.away_team.name }} </td>
-                <td class="text-center"> 
+                <td> 
                     {% if match.away_score %}
                         {{ match.away_score }}
                     {% else %} 
@@ -51,8 +41,4 @@
             </tr>
         </tbody>
     </table>
-    <div>
-        <small> Winner goes to ... </small> <br>
-        <small> Loser goes to ... </small>
-    </div>
 </div>

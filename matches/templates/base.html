@@ -10,13 +10,19 @@
     <title>{% block title %}My Site{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'matches/bootstrap.min.css' %}">
     {% bootstrap_javascript %}
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css"> -->
+    <script src="https://kit.fontawesome.com/1f04a156b8.js" crossorigin="anonymous"></script>
 </head>
 <body>
     {% include 'navbar.html' %}
     <main>
-        {% block content %}
-        <p>Welcome to my site!</p>
-        {% endblock %}
+        <div style="margin: 5px">
+            {% block content %}
+            <p>Welcome to my site!</p>
+            {% endblock %}
+        </div>
     </main>
 
     <nav>
