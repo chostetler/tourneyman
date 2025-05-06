@@ -16,6 +16,12 @@ class Team(models.Model):
     region = models.ForeignKey(Region, on_delete=models.CASCADE)
     rank = models.IntegerField(default=0)
 
+    def all_matchups(self):
+        """Returns all matchups where this team participates"""
+        return Matchup.objects.filter(
+            models.Q(home_team=self) | models.Q(away_team=self)
+        ).distinct().order_by('start_time')
+    
     class Meta:
         ordering = ['region', 'rank']
     
@@ -29,12 +35,21 @@ class Room(models.Model):
         return self.name
 
 class Matchup(models.Model):
-    match_number = models.IntegerField(unique=True, validators=[MinValueValidator(100)])
+    match_number = models.IntegerField(unique=True, validators=[MinValueValidator(1)])
     start_time = models.DateTimeField()
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
 
+    home_team = models.ForeignKey(Team, blank=True, null=True, on_delete=models.SET_NULL, related_name='home_matchups')
+    away_team = models.ForeignKey(Team, blank=True, null=True, on_delete=models.SET_NULL, related_name='away_matchups')
+
+    is_complete = models.BooleanField(default=False)
+
+    home_score = models.IntegerField(blank=True, null=True)
+    away_score = models.IntegerField(blank=True, null=True)
+
+
     def __str__(self):
-        return str(self.match_number)
+        return str(f"{self.match_number}: {self.home_team} vs. {self.away_team}")
 
 class MatchupSource(models.Model):
     matchup = models.ForeignKey(Matchup, on_delete=models.CASCADE)

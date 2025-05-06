@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %} {{ region.name }} {% endblock %}
+
+{% block content %}
+
+<h1> <span class="badge" style="background-color:{{ region.color }}">{{ region.name }}  </span></h1>
+
+{% if teams %}
+    <div class="list-group" style="margin: 10px">
+        {% for team in teams %}
+        <a href="{% url 'team_detail' team.id %}" class="list-group-item"> {{ team.name }} </a>
+        {% endfor %}
+    </div>
+{% endif %}
+{% endblock %}

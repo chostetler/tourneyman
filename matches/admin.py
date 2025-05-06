@@ -5,6 +5,7 @@ from .models import Region, Team, Room, Matchup, MatchupSource
 
 admin.site.register(Region)
 admin.site.register(Room)
+admin.site.register(Matchup)
 
 @admin.register(Team)
 class TeamAdmin(admin.ModelAdmin):
