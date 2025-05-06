@@ -1,8 +1,8 @@
-{% load static %}
-{% load django_bootstrap5 %}
-
 <!DOCTYPE html>
 <html lang="en">
+
+{% load static %}
+{% load django_bootstrap5 %}
 
 <head>
     <meta charset="UTF-8"> 
@@ -17,8 +17,9 @@
 </head>
 <body>
     {% include 'navbar.html' %}
+
     <main>
-        <div style="margin: 5px">
+        <div class="d-flex flex-column align-items-center  justify-content-center">
             {% block content %}
             <p>Welcome to my site!</p>
             {% endblock %}
@@ -27,8 +28,7 @@
 
     <nav>
         <a href="/">Home</a> |
-        <a href="/about/">About</a> |
-        <a href="/contact/">Contact</a>
+        <a href="/teams/">Teams</a> |
     </nav>
     <footer>
         <p>&copy; 2025 Caleb Hostetler</p>

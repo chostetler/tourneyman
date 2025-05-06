@@ -2,5 +2,7 @@ asgiref==3.8.1
 Django==5.2
 django-bootstrap-themes==3.3.6
 django-bootstrap5==25.1
+Faker==37.1.0
 fontawesomefree==6.6.0
 sqlparse==0.5.3
+tzdata==2025.2

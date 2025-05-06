@@ -45,6 +45,12 @@ class Matchup(models.Model):
     start_time = models.DateTimeField()
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
 
+    # Info about how each team gets to this match
+    home_from_match = models.ForeignKey('self', null=True, blank=True, related_name='home_for_matchup', on_delete=models.SET_NULL)
+    home_from_result = models.CharField(max_length=10, choices=[('winner', 'Winner'), ('loser', 'Loser')], null=True, blank=True)
+    away_from_match = models.ForeignKey('self', null=True, blank=True, related_name='away_for_matchup', on_delete=models.SET_NULL)
+    away_from_result = models.CharField(max_length=10, choices=[('winner', 'Winner'), ('loser', 'Loser')], null=True, blank=True)
+
     home_team = models.ForeignKey(Team, blank=True, null=True, on_delete=models.SET_NULL, related_name='home_matchups')
     away_team = models.ForeignKey(Team, blank=True, null=True, on_delete=models.SET_NULL, related_name='away_matchups')
 
@@ -59,5 +65,6 @@ class Matchup(models.Model):
 
 class MatchupSource(models.Model):
     matchup = models.ForeignKey(Matchup, on_delete=models.CASCADE)
+
 
     

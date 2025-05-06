@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %} Teams {% endblock %}
+
+{% block content %}
+
+<h3> Teams </h3>
+
+{% if teams %}
+    <div class="list-group" style="margin: 10px">
+        {% for team in teams %}
+        <a class="list-group-item" href="{% url 'team_detail' team.id %}">
+            <span class="badge" style="background-color: {{ team.region.color }}; text-decoration: none" > 
+                {{ team.name }} 
+            </span>
+        </a>
+        {% endfor %}
+    </div>
+{% else %}
+No teams!
+{% endif %}
+{% endblock %}

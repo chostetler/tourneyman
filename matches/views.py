@@ -5,6 +5,10 @@ from .models import Region, Team, Room, Matchup, MatchupSource
 def home(request):
     return render(request, 'home.html')
 
+def teams_list(request):
+    t = Team.objects.all().order_by('name')
+    return render(request, 'teams.html', {'teams': t})
+
 def team_detail(request, team_id):
     try:
         t = Team.objects.get(pk=team_id)
