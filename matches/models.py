@@ -31,6 +31,12 @@ class Team(models.Model):
 class Room(models.Model):
     name = models.CharField(unique=True, max_length=100)
 
+    def all_matchups(self):
+        """Returns all matchups where this team participates"""
+        return Matchup.objects.filter(
+            models.Q(room=self)
+        ).distinct().order_by('start_time')
+
     def __str__(self):
         return self.name
 

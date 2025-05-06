@@ -5,9 +5,13 @@
 {% block content %}
 
 <h1> 
-    {{ team.name }} - 
-    <a href="{% url 'region_detail' team.region.id %}"><span class="badge" style="background-color:{{ team.region.color }}"> {{ team.region }} </span></a> 
+    <a href="{% url 'region_detail' team.region.id %}"><span class="badge" style="background-color:{{ team.region.color }}"> {{ team.name }} </span></a> 
 </h1>
+
+<h3> 
+    Region: 
+    <a href="{% url 'region_detail' team.region.id %}"><span class="border badge text-primary" style="border-color:{{ team.region.color }}"> {{ team.region }} </span></a> 
+</h3>
 
 
 {% if matchups %}

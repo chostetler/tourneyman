@@ -22,5 +22,12 @@ def region_detail(request, region_id):
         raise Http404("Region does not exist")
     return render(request, 'region.html', {'region': r, 'teams': t})
 
+def room_detail(request, room_id):
+    try:
+        r = Room.objects.get(pk=room_id)
+        m = r.all_matchups() 
+    except Region.DoesNotExist:
+        raise Http404("Room does not exist")
+    return render(request, 'room.html', {'room': r, 'matchups': m})
 
 

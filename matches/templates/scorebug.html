@@ -1,11 +1,11 @@
 <div class="card mb-3" style="max-width: 40rem; margin: 10px">
     <h4 class="card-header text-white bg-primary"> 
-        <span> Match {{ match.id }} </span> 
-        <span class='border badge rounded-pill bg-primary border-white'> 
+        <span> Match {{ match.id }} </span>
+        <a class='border badge rounded-pill border-white' style="text-decoration:none" href="{% url 'room_detail' match.room.id %}"> 
             <small>
             <i class="fa-solid fa-location-dot"></i> {{ match.room.name }} 
             </small>
-        </span>
+        </a>
         <span class='border badge rounded-pill bg-primary border-white'> 
             <small>
             <i class="fa-solid fa-clock"></i> {{ match.start_time|date:"D. h:m a" }} 
@@ -19,7 +19,9 @@
         <tbody>
             <tr class="table-active">
             {% if match.home_team %}
-                <td> {{ match.home_team.name }} </td>
+                <td>
+                    <a class="badge" style="background-color: {{ match.home_team.region.color }}; text-decoration: none" href="{% url 'team_detail' match.home_team.id %}"> {{ match.home_team.name }} </span>
+                </td>
                 <td class="text-center"> 
                     {% if match.home_score %}
                         {{ match.home_score }}
@@ -36,7 +38,9 @@
 
             <tr class="table-default">
             {% if match.away_team %}
-                <td> {{ match.away_team.name }} </td>
+                <td>
+                    <a class="badge" style="background-color: {{ match.away_team.region.color }}; text-decoration: none" href="{% url 'team_detail' match.away_team.id %}"> {{ match.away_team.name }} </span>
+                </td>
                 <td class="text-center"> 
                     {% if match.away_score %}
                         {{ match.away_score }}
