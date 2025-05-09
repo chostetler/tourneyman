@@ -1,0 +1,5 @@
+{% if team %}
+<a class="badge" style="background-color: {{ team.region.color }}; text-decoration: none" href="{% url 'team_detail' match.home_team.id %}"> {{ team.name }} </a>
+{% else %}
+<span class="badge" style="background-color: {{ black }}; text-decoration: none"> TBD </span>
+{% endif %}

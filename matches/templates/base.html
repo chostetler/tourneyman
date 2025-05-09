@@ -10,28 +10,41 @@
     <title>{% block title %}My Site{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'matches/bootstrap.min.css' %}">
     {% bootstrap_javascript %}
+    <!-- Choose one FontAwesome method: either static files or CDN kit -->
+    <!-- Option 1: FontAwesome via static files -->
     <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
-    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css"> -->
-    <script src="https://kit.fontawesome.com/1f04a156b8.js" crossorigin="anonymous"></script>
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+    
+    <!-- Option 2: FontAwesome via CDN kit (comment out if using Option 1) -->
+    <!-- <script src="https://kit.fontawesome.com/1f04a156b8.js" crossorigin="anonymous"></script> -->
 </head>
+
 <body>
     {% include 'navbar.html' %}
 
-    <main>
-        <div class="d-flex flex-column justify-content-center">
+    <div class="container-md py-3">
+        <main>
             {% block content %}
             <p>Welcome to my site!</p>
             {% endblock %}
-        </div>
-    </main>
+        </main>
+    </div>
 
-    <nav>
-        <a href="/">Home</a> |
-        <a href="/teams/">Teams</a> |
-    </nav>
-    <footer>
-        <p>&copy; 2025 Caleb Hostetler</p>
+    <footer class="container-fluid bg-light mt-5 py-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <p>&copy; 2025 Caleb Hostetler</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <nav>
+                        <a href="/" class="me-3">Home</a>
+                        <a href="/teams/" class="me-3">Teams</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
     </footer>
 </body>
 </html>

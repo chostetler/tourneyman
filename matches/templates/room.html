@@ -7,6 +7,14 @@
 
 <h1> <i class="fa-solid fa-location-dot"></i> {{ room.name }} </h1>
 
+{% if room.map %}
+
+<div class="vw-75 p-3">
+    <img src="{{ room.map.url }}" class="img-fluid">
+</div>
+
+{% endif %}
+
 <h2> Matches </h2>
 <hr>
 

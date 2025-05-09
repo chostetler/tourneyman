@@ -30,6 +30,7 @@ class Team(models.Model):
 
 class Room(models.Model):
     name = models.CharField(unique=True, max_length=100)
+    map = models.ImageField(upload_to='images/', null=True, blank=True)
 
     def all_matchups(self):
         """Returns all matchups where this team participates"""
