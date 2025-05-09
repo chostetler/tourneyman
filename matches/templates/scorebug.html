@@ -1,7 +1,11 @@
-<div class="card mb-3" style="max-width: 40rem; margin: 10px">
+<div class="card mb-3" style="max-width: 40rem; margin: 1rem">
+    {% if match.is_complete %}
+    <h4 class="card-header text-primary bg-secondary"> 
+    {% else %}
     <h4 class="card-header text-white bg-primary"> 
-        <span> Match {{ match.id }} </span>
-        <a class='border badge rounded-pill border-white' style="text-decoration:none" href="{% url 'room_detail' match.room.id %}"> 
+    {% endif %}
+        <span> Match {{ match.match_number }} </span>
+        <a class='badge border border-primary bg-secondary' style="text-decoration:none" href="{% url 'room_detail' match.room.id %}"> 
             <small>
             <i class="fa-solid fa-location-dot"></i> {{ match.room.name }} 
             </small>
@@ -17,7 +21,7 @@
             <col style="width: 75%;">
             <col style="width: 25%;">
         <tbody>
-            <tr class="table-active">
+            <tr class="table-default">
             {% if match.home_team %}
                 <td>
                     <a class="badge" style="background-color: {{ match.home_team.region.color }}; text-decoration: none" href="{% url 'team_detail' match.home_team.id %}"> {{ match.home_team.name }} </span>

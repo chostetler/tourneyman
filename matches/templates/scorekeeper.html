@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %} Scorekeeper {% endblock %}
+
+{% block content %}
+
+<h1> Score Management
+</h1>
+
+<h3> Incomplete matches </h3>
+
+
+{% if matchups %}
+    {% for match in matchups %} 
+        {% include "scorebug.html" %}
+    {% endfor %}
+{% else %} 
+    <p>All caught up!</p>
+{% endif %}
+
+
+
+{% endblock %}
