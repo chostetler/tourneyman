@@ -12,7 +12,7 @@ def teams_list(request):
 def team_detail(request, team_id):
     try:
         t = Team.objects.get(pk=team_id)
-        m = t.all_matchups() 
+        m = t.all_matchups().order_by('match_number')
         
     except Team.DoesNotExist:
         raise Http404("Team does not exist")
@@ -29,7 +29,7 @@ def region_detail(request, region_id):
 def room_detail(request, room_id):
     try:
         r = Room.objects.get(pk=room_id)
-        m = r.all_matchups() 
+        m = r.all_matchups().order_by('match_number')
     except Region.DoesNotExist:
         raise Http404("Room does not exist")
     return render(request, 'room.html', {'room': r, 'matchups': m})

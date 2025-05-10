@@ -22,7 +22,7 @@
                 <col style="width: 75%;">
                 <col style="width: 25%;">
             <tbody>
-                <tr class="table-default">
+                <tr class="{% if match.is_won_by_home_team %} table-success {% else %} table-default {% endif %}">
                     <td>
                         {% include "team-badge.html" with team=match.home_team %}
                     </td> 
@@ -34,7 +34,7 @@
                         {% endif %}
                     </td>
                 </tr>
-                <tr class="table-default">
+                <tr class="{% if match.is_won_by_away_team %} table-success {% else %} table-default {% endif %}">
                     <td>
                         {% include "team-badge.html" with team=match.away_team %}
                     </td> 

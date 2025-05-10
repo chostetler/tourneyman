@@ -21,6 +21,9 @@ class Team(models.Model):
         return Matchup.objects.filter(
             models.Q(home_team=self) | models.Q(away_team=self)
         ).distinct().order_by('start_time')
+
+
+
     
     class Meta:
         ordering = ['region', 'rank']
@@ -60,6 +63,30 @@ class Matchup(models.Model):
     home_score = models.IntegerField(blank=True, null=True)
     away_score = models.IntegerField(blank=True, null=True)
 
+    def winner(self):
+        """Get the winning team of the match, if there is one"""
+        if not self.is_complete:
+            return None
+        if self.home_score > self.away_score:
+            return self.home_team
+        elif self.away_score > self.home_score:
+            return self.away_team
+        else:
+            return None
+
+    def is_won_by(self, team: Team):
+        """Returns true if the given team won the matchup"""
+        if not isinstance(team, Team):
+            return False
+        return self.winner() == team
+
+    @property
+    def is_won_by_home_team(self):
+        return self.is_won_by(self.home_team)
+
+    @property
+    def is_won_by_away_team(self):
+        return self.is_won_by(self.away_team)
 
     def __str__(self):
         return str(f"{self.match_number}: {self.home_team} vs. {self.away_team}")
