@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Region, Team, Room, Matchup, MatchupSource
+from .models import Region, Team, Room, Matchup 
 
 # Register your models here.
 

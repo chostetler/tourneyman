@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Region, Team, Room, Matchup, MatchupSource
+from .models import Region, Team, Room, Matchup
 
 # Create your views here.
 def home(request):

@@ -5,12 +5,19 @@
         {% else %}
         <h4 class="card-header text-white bg-primary"> 
         {% endif %}
-            <span> Match {{ match.match_number }} </span>
-            <a class='badge border border-primary bg-secondary' style="text-decoration:none" href="{% url 'room_detail' match.room.id %}"> 
+            <span> #{{ match.match_number }} </span>
+            <span class='border badge rounded-pill bg-primary border-white'>
                 <small>
                 <i class="fa-solid fa-location-dot"></i> {{ match.room.name }} 
                 </small>
-            </a>
+            </span>
+            {% if match.tournament_round %}
+                <span class='badge border border-primary bg-secondary' style="text-decoration:none" href="{% url 'room_detail' match.room.id %}"> 
+                    <small>
+                    <i class="fa-solid fa-list"></i> {{ match.tournament_round.name }} 
+                    </small>
+                </a>
+            {% endif %}
             <span class='border badge rounded-pill bg-primary border-white'> 
                 <small>
                 <i class="fa-solid fa-clock"></i> {{ match.start_time|date:"D. h:m a" }} 
@@ -49,8 +56,8 @@
             </tbody>
         </table>
         <div class="card-footer bg-light">
-            <small> Winner goes to ... </small> <br>
-            <small> Loser goes to ... </small>
+            <small> Winner goes to {{ match.winner_destination }} </small> <br>
+            <small> Loser goes to {{ match.loser_destination }} </small>
         </div>
     </div>
 </div>
