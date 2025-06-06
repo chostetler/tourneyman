@@ -6,10 +6,12 @@ def home(request):
     return render(request, 'home.html')
 
 def teams_list(request):
+    """View for a list of all Teams"""
     t = Team.objects.all().order_by('name')
     return render(request, 'teams.html', {'teams': t})
 
 def team_detail(request, team_id):
+    """View for details about a specific Team"""
     try:
         t = Team.objects.get(pk=team_id)
         m = t.all_matchups().order_by('match_number')
@@ -18,7 +20,13 @@ def team_detail(request, team_id):
         raise Http404("Team does not exist")
     return render(request, 'team.html', {'team': t, 'matchups': m})
 
+def regions_list(request):
+    """View for a list of all Regions"""
+    r = Region.objects.all().order_by('name')
+    return render(request, 'regions.html', {'regions': r})
+
 def region_detail(request, region_id):
+    """View for details about a specific Region"""
     try:
         r = Region.objects.get(pk=region_id)
         t = r.team_set.all()
@@ -27,6 +35,7 @@ def region_detail(request, region_id):
     return render(request, 'region.html', {'region': r, 'teams': t})
 
 def room_detail(request, room_id):
+    """View for details about a specific Room"""
     try:
         r = Room.objects.get(pk=room_id)
         m = r.all_matchups().order_by('match_number')
@@ -34,7 +43,9 @@ def room_detail(request, room_id):
         raise Http404("Room does not exist")
     return render(request, 'room.html', {'room': r, 'matchups': m})
 
+
 def matchup_detail(request, matchup_id):
+    """View for details about a specific Matchup"""
     try:
         m = Matchup.objects.get(pk=matchup_id)
     except Matchup.DoesNotExist:
