@@ -110,14 +110,14 @@ class Command(BaseCommand):
         # Start time base (beginning of a tournament day)
         start_date = timezone.now().replace(hour=9, minute=0, second=0, microsecond=0)
         
-        match_numbers = random.sample(range(100, 300), count)  # Unique match numbers
+        match_numbers = random.sample(range(1, 300), count)  # Unique match numbers
         
         for i, match_number in enumerate(match_numbers):
             # Calculate a match time
             day_offset = i // 10  # Every 10 matches move to next day
             time_slot = i % 10    # 10 matches per day
             
-            match_time = start_date + timedelta(days=day_offset, minutes=time_slot*45)
+            match_time = start_date + timedelta(days=day_offset, minutes=time_slot*30)
             
             # Select two different teams
             available_teams = list(teams)

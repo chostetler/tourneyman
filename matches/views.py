@@ -34,6 +34,15 @@ def room_detail(request, room_id):
         raise Http404("Room does not exist")
     return render(request, 'room.html', {'room': r, 'matchups': m})
 
+def matchup_detail(request, matchup_id):
+    try:
+        m = Matchup.objects.get(pk=matchup_id)
+    except Matchup.DoesNotExist:
+        raise Http404("Matchup does not exist")
+    return render(request, 'matchup.html', {'matchup': m,})
+
+
+
 def scorekeeper(request):
     """View for scorekeepers, allowing them to enter results for active games"""
     m = Matchup.objects.all().filter(is_complete=False).order_by('match_number')

@@ -46,6 +46,9 @@ class Room(models.Model):
 
 class TournamentRound(models.Model):
     name = models.CharField(unique=True, max_length=100, null=False, blank=False)
+
+    def __str__(self):
+        return self.name
     
 
 class Matchup(models.Model):
@@ -130,6 +133,21 @@ class Matchup(models.Model):
             return away_destination
         pass
 
+    @property
+    def home_team_name(self):
+        if self.home_team:
+            return self.home_team
+        if self.home_from_match:
+            return 'TBD'
+        return None
+
+    @property
+    def away_team_name(self):
+        if self.away_team:
+            return self.away_team
+        if self.away_from_match:
+            return 'TBD'
+        return None
 
     def __str__(self):
-        return str(f"{self.match_number}: {self.home_team} vs. {self.away_team}")
+        return str(f"{self.match_number}: {self.home_team_name} vs. {self.away_team_name}")

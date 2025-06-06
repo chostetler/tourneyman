@@ -12,7 +12,7 @@
                 </small>
             </span>
             {% if match.tournament_round %}
-                <span class='badge border border-primary bg-secondary' style="text-decoration:none" href="{% url 'room_detail' match.room.id %}"> 
+                <a class='badge border border-primary bg-secondary' style="text-decoration:none" href="{% url 'room_detail' match.room.id %}"> 
                     <small>
                     <i class="fa-solid fa-list"></i> {{ match.tournament_round.name }} 
                     </small>
@@ -56,8 +56,12 @@
             </tbody>
         </table>
         <div class="card-footer bg-light">
-            <small> Winner goes to {{ match.winner_destination }} </small> <br>
-            <small> Loser goes to {{ match.loser_destination }} </small>
+            {% if match.winner_destination %}
+            <small> Winner goes to <a href="{% url 'matchup_detail' match.winner_destination.id %}" >{{ match.winner_destination }}</a> </small> <br>
+            {% endif %}
+            {% if match.loser_destination %}
+            <small> Loser goes to <a href="{% url 'matchup_detail' match.loser_destination.id %}" >{{ match.loser_destination }}</a> </small> <br>
+            {% endif %}
         </div>
     </div>
 </div>
