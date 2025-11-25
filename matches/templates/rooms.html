@@ -1,0 +1,19 @@
+
+{% extends "base.html" %}
+
+{% block title %} Rooms {% endblock %}
+
+{% block content %}
+
+<h3> Rooms </h3>
+
+{% if rooms %}
+    <div class="list-group" style="margin: 10px">
+        {% for room in rooms %}
+        <a href="{% url 'room_detail' room.id %}" class="list-group-item"> {{ room.name }} </a>
+        {% endfor %}
+    </div>
+{% else %}
+No rooms!
+{% endif %}
+{% endblock %}

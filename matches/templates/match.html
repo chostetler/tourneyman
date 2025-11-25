@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block title %} {{ match }} {% endblock %}
+
+{% block content %}
+
+{% include "scorebug.html" with match=match%}
+
+{% endblock %}

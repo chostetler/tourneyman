@@ -1,28 +1,31 @@
 <div class="col-12 col-md-10 col-lg-8 col-xl-6 mx-auto mb-3">
     <div class="card">
-        {% if match.is_complete %}
-        <h4 class="card-header text-primary bg-secondary"> 
-        {% else %}
-        <h4 class="card-header text-white bg-primary"> 
-        {% endif %}
+        <h4 class="card-header"> 
             <span> #{{ match.match_number }} </span>
-            <span class='border badge rounded-pill bg-primary border-white'>
+            {% if match.room %}
+            -
+            <a class='' style="text-decoration:none" href="{% url 'room_detail' match.room.id %}">
                 <small>
                 <i class="fa-solid fa-location-dot"></i> {{ match.room.name }} 
                 </small>
-            </span>
-            {% if match.tournament_round %}
-                <a class='badge border border-primary bg-secondary' style="text-decoration:none" href="{% url 'room_detail' match.room.id %}"> 
-                    <small>
-                    <i class="fa-solid fa-list"></i> {{ match.tournament_round.name }} 
-                    </small>
-                </a>
+            </a>
             {% endif %}
-            <span class='border badge rounded-pill bg-primary border-white'> 
+            {% if match.tournament_round %}
+            -
+            <a class='' style="text-decoration:none" href="{% url 'room_detail' match.room.id %}"> 
+                <small>
+                <i class="fa-solid fa-list"></i> {{ match.tournament_round.name }} 
+                </small>
+            </a>
+            {% endif %}
+            {% if match.start_time %}
+            -
+            <span class=''> 
                 <small>
                 <i class="fa-solid fa-clock"></i> {{ match.start_time|date:"D. h:m a" }} 
                 </small>
             </span> 
+            {% endif %}
         </h4> 
         <table class="table table-bordered mb-0">
             <colgroup>
@@ -57,10 +60,10 @@
         </table>
         <div class="card-footer bg-light">
             {% if match.winner_destination %}
-            <small> Winner goes to <a href="{% url 'matchup_detail' match.winner_destination.id %}" >{{ match.winner_destination }}</a> </small> <br>
+            <small> Winner goes to <a href="{% url 'match_detail' match.winner_destination.id %}" >{{ match.winner_destination }}</a> </small> <br>
             {% endif %}
             {% if match.loser_destination %}
-            <small> Loser goes to <a href="{% url 'matchup_detail' match.loser_destination.id %}" >{{ match.loser_destination }}</a> </small> <br>
+            <small> Loser goes to <a href="{% url 'match_detail' match.loser_destination.id %}" >{{ match.loser_destination }}</a> </small> <br>
             {% endif %}
         </div>
     </div>

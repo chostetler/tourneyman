@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Region, Team, Room, Matchup 
+from .models import Region, Team, Room, Match
 
 # Register your models here.
 
@@ -8,12 +8,12 @@ admin.site.register(Room)
 
 @admin.register(Team)
 class TeamAdmin(admin.ModelAdmin):
-    list_display = ('name', 'region', 'rank')
+    list_display = ('name', 'region')
     list_filter = ('region',)
     search_fields = ('name',)
 
-@admin.register(Matchup)
-class MatchupAdmin(admin.ModelAdmin):
+@admin.register(Match)
+class MatchAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'match_number', 'room', 'start_time', 'is_complete', 'home_score', 'away_score')
     list_filter = ('room',)
     ordering = ('match_number',)

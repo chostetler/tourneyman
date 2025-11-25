@@ -5,9 +5,10 @@ import random
 from datetime import timedelta
 import faker
 import math
+import csv
 
 # Import your models
-from matches.models import Team, Region, Room, Matchup
+from matches.models import Team, Region, Room, Match
 
 class Command(BaseCommand):
     help = 'Generates mock data for tournament development'
@@ -16,6 +17,7 @@ class Command(BaseCommand):
         parser.add_argument('--regions', type=int, default=5, help='Number of regions to create')
         parser.add_argument('--teams', type=int, default=16, help='Number of teams to create (preferably a power of 2)')
         parser.add_argument('--rooms', type=int, default=3, help='Number of rooms to create')
+        parser.add_argument('--file', type=str, default="", help='CSV file to create tournament from')
         parser.add_argument('--clear', action='store_true', help='Clear existing data before generating new data')
         parser.add_argument('--tournament', action='store_true', help='Create a tournament bracket structure')
     
@@ -26,6 +28,14 @@ class Command(BaseCommand):
         # Create fake data generator
         fake = faker.Faker()
         
+        if options['file'] != "":
+            matches = self.create_bracket_from_file(options['file'])
+            if (matches > 0):
+                self.stdout.write(self.style.SUCCESS(f'Created tournament bracket with {len(matches)} matches'))
+            else:
+                self.stdout.write(self.style.SUCCESS(f'Created tournament bracket with {len(matches)} matches'))
+            return
+
         # Create regions
         regions = self.create_regions(options['regions'], fake)
         self.stdout.write(self.style.SUCCESS(f'Created {len(regions)} regions'))
@@ -49,7 +59,7 @@ class Command(BaseCommand):
     def clear_data(self):
         """Clear all data from the models"""
         self.stdout.write('Clearing existing data...')
-        Matchup.objects.all().delete()
+        Match.objects.all().delete()
         Team.objects.all().delete()
         Region.objects.all().delete()
         Room.objects.all().delete()
@@ -78,12 +88,14 @@ class Command(BaseCommand):
     def create_teams(self, count, regions, fake):
         """Create teams belonging to random regions"""
         team_names = [fake.unique.city() for _ in range(count)]
+        team_emojis = [fake.unique.emoji() for _ in range(count)]
         teams = []
         
         for i in range(count):
             region = random.choice(regions)
             team = Team.objects.create(
                 name=team_names[i],
+                emoji=team_emojis[i],
                 region=region
             )
             teams.append(team)
@@ -129,7 +141,7 @@ class Command(BaseCommand):
             room = random.choice(rooms)
             
             # Create the match
-            match = Matchup.objects.create(
+            match = Match.objects.create(
                 match_number=match_number,
                 start_time=match_time,
                 room=room,
@@ -183,7 +195,7 @@ class Command(BaseCommand):
             home_team = teams[i*2]
             away_team = teams[i*2 + 1]
             
-            match = Matchup.objects.create(
+            match = Match.objects.create(
                 match_number=i+1,  # Start with match 1, 2, 3, etc.
                 start_time=match_time,
                 room=room,
@@ -211,7 +223,7 @@ class Command(BaseCommand):
                 feed_idx_2 = i*2 + 1
                 
                 if feed_idx_1 < len(last_round_matches) and feed_idx_2 < len(last_round_matches):
-                    match = Matchup.objects.create(
+                    match = Match.objects.create(
                         match_number=match_number,
                         start_time=match_time,
                         room=room,
@@ -231,7 +243,7 @@ class Command(BaseCommand):
         for i in range(min(4, len(round1_matches))):
             source_match = round1_matches[i]
             
-            consolation_match = Matchup.objects.create(
+            consolation_match = Match.objects.create(
                 match_number=900 + i,
                 start_time=start_date + timedelta(days=1, hours=i),
                 room=random.choice(rooms),
@@ -259,6 +271,28 @@ class Command(BaseCommand):
                 # self.update_next_matches(match)
         
         return all_matches
+
+    @transaction.atomic
+    def create_bracket_from_file(self, filepath):
+        matches = []
+        with open(filepath, 'r') as f:
+            reader = csv.DictReader(f, delimiter=',')
+            for row in reader:
+                # For each row - first, get the match ID. Just assume unique
+                match_id = row['match']
+
+                # Then, find the two teams
+                away = row['away']
+                match = Match.objects.create(
+                    match_number=match_id,
+                    home_team=home,
+                    away_team=away,
+                )
+                matches.append(match)
+                
+                print(row)
+        return matches
+
     
     def update_next_matches(self, match):
         """Manually update the next matches based on match result"""
@@ -280,12 +314,12 @@ class Command(BaseCommand):
             return
         
         # Find matches where this match is the source
-        winner_destinations = Matchup.objects.filter(
+        winner_destinations = Match.objects.filter(
             (models.Q(home_from_match=match) & models.Q(home_from_result='winner')) |
             (models.Q(away_from_match=match) & models.Q(away_from_result='winner'))
         )
         
-        loser_destinations = Matchup.objects.filter(
+        loser_destinations = Match.objects.filter(
             (models.Q(home_from_match=match) & models.Q(home_from_result='loser')) |
             (models.Q(away_from_match=match) & models.Q(away_from_result='loser'))
         )

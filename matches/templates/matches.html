@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %} Matches {% endblock %}
+
+{% block content %}
+
+<h3> Matches </h3>
+
+{% if incomplete_matches %}
+    <h4> Upcoming Matches </h4>
+    <div class="list-group" style="margin: 10px">
+        {% for match in incomplete_matches %}
+            {% include "scorebug.html" %}
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% if complete_matches %}
+    <h4> Completed Matches </h4>
+    <div class="list-group" style="margin: 10px">
+        {% for match in complete_matches %}
+            {% include "scorebug-skinny.html" %}
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% endblock %}

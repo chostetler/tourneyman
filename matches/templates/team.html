@@ -5,17 +5,17 @@
 {% block content %}
 
 <h1> 
-    <a href="{% url 'region_detail' team.region.id %}"><span class="badge" style="background-color:{{ team.region.color }}"> {{ team.name }} </span></a> 
+    <span style="color:{{ team.region.color }}"> {{ team.display_name }} </span> 
 </h1>
 
 <h3> 
     Region: 
-    <a href="{% url 'region_detail' team.region.id %}"><span class="border badge text-primary" style="border-color:{{ team.region.color }}"> {{ team.region }} </span></a> 
+    <a href="{% url 'region_detail' team.region.id %}"><span class="border badge text-primary" style="color:{{ team.region.color }}">{{ team.region }}</span></a> 
 </h3>
 
 
-{% if matchups %}
-    {% for match in matchups %} 
+{% if matches %}
+    {% for match in matches %} 
         {% include "scorebug.html" %}
     {% endfor %}
 {% else %} 

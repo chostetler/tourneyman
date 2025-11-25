@@ -1,0 +1,16 @@
+match,home,away
+1,smithville,orrville
+2,dalton,hillsdale
+3,chippewa,rittman
+4,norwayne,northwestern
+5,(L1),(L2)
+6,(L3),(L4)
+7,(W1),(W2)
+8,(W3),(W4)
+9,(L7),(W5)
+10,(L8),(W6)
+11,(W7),(W8)
+12,(W9),(W10)
+13,(W12),(L11)
+14,(W11),(W13)
+15,(W14),(L14)

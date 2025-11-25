@@ -11,7 +11,7 @@
         {% for team in teams %}
         <a class="list-group-item" href="{% url 'team_detail' team.id %}">
             <span class="badge" style="background-color: {{ team.region.color }}; text-decoration: none" > 
-                {{ team.name }} 
+                {{ team.display_name }} 
             </span>
         </a>
         {% endfor %}

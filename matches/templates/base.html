@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}My Site{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'matches/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'matches/custom.css' %}">
     {% bootstrap_javascript %}
     <!-- Choose one FontAwesome method: either static files or CDN kit -->
     <!-- Option 1: FontAwesome via static files -->
@@ -41,6 +42,7 @@
                     <nav>
                         <a href="/" class="me-3">Home</a>
                         <a href="/teams/" class="me-3">Teams</a>
+                        <a href="/matches/" class="me-3">Matches</a>
                     </nav>
                 </div>
             </div>
