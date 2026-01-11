@@ -1,5 +1,5 @@
 {% if team %}
 <a class="badge border" style="color: {{ team.region.color }}; text-decoration: none" href="{% url 'team_detail' team.id %}"> {{ team.display_name }} </a>
 {% else %}
-<span class="badge" style="background-color: black; text-decoration: none"> TBD </span>
+<span class="badge" style="color: black; text-decoration: none"> TBD </span>
 {% endif %}

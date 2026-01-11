@@ -12,17 +12,17 @@
             {% endif %}
             {% if match.tournament_round %}
             -
-            <a class='' style="text-decoration:none" href="{% url 'room_detail' match.room.id %}"> 
+            <span class='' style="text-decoration:none"> 
                 <small>
                 <i class="fa-solid fa-list"></i> {{ match.tournament_round.name }} 
                 </small>
-            </a>
+            </span>
             {% endif %}
             {% if match.start_time %}
             -
             <span class=''> 
                 <small>
-                <i class="fa-solid fa-clock"></i> {{ match.start_time|date:"D. h:m a" }} 
+                <i class="fa-solid fa-clock"></i> {{ match.start_time }} 
                 </small>
             </span> 
             {% endif %}
@@ -34,7 +34,21 @@
             <tbody>
                 <tr class="{% if match.is_won_by_home_team %} table-success {% else %} table-default {% endif %}">
                     <td>
-                        {% include "team-badge.html" with team=match.home_team %}
+                        {% if match.home_team %}
+                            {% include "team-badge.html" with team=match.home_team %}
+                        {% elif match.home_source_match %}
+                            {% if match.home_source_take_winner %}
+                            Winner of 
+                            {% else %}
+                            Loser of 
+                            {% endif %}
+                            <a href="{% url 'match_detail' match.home_source_match.id %}">
+                                {{ match.home_source_match }}
+                            </a>
+                        {% else %}
+
+                        {% endif %}
+
                     </td> 
                     <td class="text-center"> 
                         {% if match.home_score %}
@@ -46,7 +60,20 @@
                 </tr>
                 <tr class="{% if match.is_won_by_away_team %} table-success {% else %} table-default {% endif %}">
                     <td>
-                        {% include "team-badge.html" with team=match.away_team %}
+                        {% if match.away_team %}
+                            {% include "team-badge.html" with team=match.away_team %}
+                        {% elif match.away_source_match %}
+                            {% if match.away_source_take_winner %}
+                            Winner of 
+                            {% else %}
+                            Loser of 
+                            {% endif %}
+                            <a href="{% url 'match_detail' match.away_source_match.id %}">
+                                {{ match.away_source_match }}
+                            </a>
+                        {% else %}
+
+                        {% endif %}
                     </td> 
                     <td class="text-center"> 
                         {% if match.away_score %}

@@ -1,25 +1,52 @@
-<div class="col-12 mx-auto mb-2">
-    <div class="d-flex align-items-center justify-content-between flex-wrap border rounded">
-        <div class="d-flex border border-primary bg-white text-primary py-1 flex-shrink px-2">
-            {{ match.match_number }}
+<div class="col-12 col-lg-8 mx-auto mb-3">
+    <div class="list-group-item border rounded shadow-sm p-0">
+        <div class="row g-0 align-items-center py-2 px-3">
+            <div class="col-2 border-end text-center">
+                <div class="fw-bold text-primary" style="line-height: 1.1;">#{{ match.match_number }}</div>
+                <div class="text-muted small" style="font-size: 0.7rem;">{{ match.tournament_round }}</div>
+            </div>
+
+            <div class="col-6 px-2 px-md-3">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                    <div class="text-truncate small">
+                        {% include "team-badge.html" with team=match.home_team %}
+                    </div>
+                    <span class="fw-bold ms-2">{{ match.home_score|default:"0" }}</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="text-truncate small">
+                        {% include "team-badge.html" with team=match.away_team %}
+                    </div>
+                    <span class="fw-bold ms-2">{{ match.away_score|default:"0" }}</span>
+                </div>
+            </div>
+
+            <div class="col-4 text-end border-start ps-2 ps-md-3" style="font-size: 0.75rem;">
+                <div class="text-truncate text-muted">
+                    <i class="fa-solid fa-location-dot fa-xs"></i> {{ match.room.name }}
+                </div>
+                <div class="text-dark mt-1">
+                    <i class="fa-solid fa-clock fa-xs"></i> {{ match.start_time|date:"D. g:i a" }}
+                </div>
+            </div>
         </div>
-        <div class="d-flex justify-content-center flex-grow-1">
-            <div class="mx-3">
-                {% include "team-badge.html" with team=match.home_team %}
-            </div>
-            <div class="mx-3">
-                {% include "team-badge.html" with team=match.away_team %}
-            </div>
+
+        {% if match.winner_destination or match.loser_destination %}
+        <div class="bg-light border-top py-1 px-3" style="font-size: 0.7rem;">
+            {% if match.winner_destination %}
+            <span class="text-muted">Winner:</span> 
+            <a href="{% url 'match_detail' match.winner_destination.id %}" class="text-decoration-none me-2">
+                {{ match.winner_destination }}
+            </a>
+            {% endif %}
+            
+            {% if match.loser_destination %}
+            <span class="text-muted border-start ps-2">Loser:</span> 
+            <a href="{% url 'match_detail' match.loser_destination.id %}" class="text-decoration-none">
+                {{ match.loser_destination }}
+            </a>
+            {% endif %}
         </div>
-        <div class="d-flex border border-primary bg-white text-primary py-1 flex-shrink">
-            <div class="mx-1 border border-white rounded-pill px-1">
-                <i class="fa-solid fa-location-dot"></i> 
-                {{ match.room.name }}
-            </div>
-            <div class="mx-1 border border-white rounded-pill px-1">
-                <i class="fa-solid fa-clock"></i> 
-                {{ match.start_time|date:"D. h:m a" }} 
-            </div>
-        </div>
+        {% endif %}
     </div>
 </div>

@@ -50,7 +50,7 @@ def room_detail(request, room_id):
     return render(request, 'room.html', {'room': r, 'matches': m})
 
 def matches_list(request):
-    m = Match.objects.all().order_by('match_number')
+    m = Match.objects.all().order_by('tournament_round')
     incomplete = m.filter(is_complete=False)
     complete = m.filter(is_complete=True)
     return render(request, 'matches.html', {'complete_matches': complete, 'incomplete_matches': incomplete})

@@ -1,10 +1,13 @@
 from django.contrib import admin
-from .models import Region, Team, Room, Match
+from .models import Region, Team, Room, Match, Timeslot, TournamentRound, TournamentBracket
 
 # Register your models here.
 
 admin.site.register(Region)
 admin.site.register(Room)
+admin.site.register(Timeslot)
+admin.site.register(TournamentBracket)
+admin.site.register(TournamentRound)
 
 @admin.register(Team)
 class TeamAdmin(admin.ModelAdmin):
@@ -14,7 +17,7 @@ class TeamAdmin(admin.ModelAdmin):
 
 @admin.register(Match)
 class MatchAdmin(admin.ModelAdmin):
-    list_display = ('__str__', 'match_number', 'room', 'start_time', 'is_complete', 'home_score', 'away_score')
+    list_display = ('__str__', 'match_number', 'room', 'timeslot', 'is_complete', 'home_score', 'away_score')
     list_filter = ('room',)
     ordering = ('match_number',)
 
