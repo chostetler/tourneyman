@@ -1,6 +1,11 @@
 from django.shortcuts import render
 from .models import Region, Team, Room, Match
+from .forms import TeamForm, RoomForm, MatchForm
 from django.http import Http404
+from django.urls import reverse_lazy, reverse
+from django.views.generic.edit import CreateView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 # Create your views here.
 def home(request):
@@ -70,3 +75,40 @@ def scorekeeper(request):
     m = Match.objects.all().filter(is_complete=False).order_by('match_number')
     return render(request, 'scorekeeper.html', {'matches': m})
 
+# Form views
+
+class TeamCreateView( LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
+    model = Team
+    form_class = TeamForm
+    template_name = 'team_form.html'
+    success_message = "%(name)s was created successfully!"
+
+    def test_func(self):
+            return self.request.user.is_staff # Only staff can access this view
+
+    def get_success_url(self):
+        return reverse('team_create')
+
+class RoomCreateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
+    model = Room
+    form_class = RoomForm
+    template_name = 'room_form.html'
+    success_message = "%(name)s was created successfully!"
+
+    def test_func(self):
+            return self.request.user.is_staff # Only staff can access this view
+
+    def get_success_url(self):
+        return reverse('room_create')
+
+class MatchCreateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
+    model = Match
+    form_class = MatchForm
+    template_name = 'match_form.html'
+    success_message = "%(match_number)s was created successfully!"
+
+    def test_func(self):
+            return self.request.user.is_staff # Only staff can access this view
+
+    def get_success_url(self):
+        return reverse('team_create')

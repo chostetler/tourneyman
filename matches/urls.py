@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import TeamCreateView, RoomCreateView, MatchCreateView
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -12,4 +13,9 @@ urlpatterns = [
     path('matches/<int:match_id>/', views.match_detail, name='match_detail'),
     path('matches/', views.matches_list, name='matches_list'),
     path('scorekeeper', views.scorekeeper, name='scorekeeper'),
+
+    # Data creation forms
+    path('teams/add/', TeamCreateView.as_view(), name='team_create'),
+    path('rooms/add/', RoomCreateView.as_view(), name='room_create'),
+    path('matches/add/', MatchCreateView.as_view(), name='match_create'),
 ]
