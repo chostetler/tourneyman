@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
 from django.core.exceptions import ValidationError
-
+from django.utils import timezone
 # Create your models here.
 
 class Region(models.Model):
@@ -66,7 +66,8 @@ class Timeslot(models.Model):
         ordering = ['start_time']
 
     def __str__(self):
-        return str(self.start_time.strftime("%a %I:%M"))
+        local_time = timezone.localtime(self.start_time)
+        return local_time.strftime("%a %I:%M")
 
 class TournamentBracket(models.Model):
     name = models.CharField(unique=True, max_length=100, null=False, blank=False)
