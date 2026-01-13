@@ -4,24 +4,34 @@
 
 {% block content %}
 
-<h3> Matches </h3>
+<a href="?format=timeslot" class="btn btn-primary"> Group by start time </a>  
+<a href="?format=bracket" class="btn btn-primary"> Group by bracket </a> 
+<a href="?format=room" class="btn btn-primary"> Group by room </a>
+<hr>
 
+{% if request.GET.format == 'bracket'%}
+    {% regroup incomplete_matches by bracket as round_list %}
+{% elif request.GET.format == 'room' %}
+    {% regroup incomplete_matches by room as round_list %}
+{% else %}
+    {% regroup incomplete_matches by timeslot as round_list %}
+{% endif %}
+
+
+<h3> Upcoming Matches </h3>
 {% if incomplete_matches %}
-
-{% regroup incomplete_matches by tournament_round as round_list %}
-
 {% for round in round_list %}
-    <h4> Round: {{round.grouper}} </h4>
+    <h4> {{round.grouper}} </h4>
     <div class="list-group" style="margin: 10px">
         {% for match in round.list %}
-            {% include "scorebug.html" %}
+            {% include "scorebug-skinny.html" %}
         {% endfor %}
     </div>
 {%endfor%}
 {% endif %}
 
+<h3> Completed Matches </h3>
 {% if complete_matches %}
-    <h4> Completed Matches </h4>
     <div class="list-group" style="margin: 10px">
         {% for match in complete_matches %}
             {% include "scorebug-skinny.html" %}

@@ -96,7 +96,7 @@ class Match(models.Model):
     # Basic match info
     match_number = models.IntegerField(unique=True, validators=[MinValueValidator(1)])
     timeslot = models.ForeignKey(Timeslot, on_delete=models.SET_NULL, null=True, blank=True)
-    room = models.ForeignKey(Room, on_delete=models.SET_NULL, null=True)
+    room = models.ForeignKey(Room, on_delete=models.SET_NULL, null=True, blank=True)
     tournament_round = models.ForeignKey(TournamentRound, on_delete=models.SET_NULL, null=True, blank=True)
 
     # Info about how each team gets to this match
@@ -228,6 +228,26 @@ class Match(models.Model):
         if self.home_team:
             count += 1
         return count
+
+    @property
+    def home_source_match_short(self):
+        if self.home_source_match:
+            if self.home_source_take_winner:
+                return 'W' + str(self.home_source_match.match_number)
+            else:
+                return 'L' + str(self.home_source_match.match_number)
+        else:
+            return None
+
+    @property
+    def away_source_match_short(self):
+        if self.away_source_match:
+            if self.away_source_take_winner:
+                return 'W' + str(self.away_source_match.match_number)
+            else:
+                return 'L' + str(self.away_source_match.match_number)
+        else:
+            return None
 
     class Meta:
         verbose_name_plural = "matches"

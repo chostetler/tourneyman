@@ -55,7 +55,14 @@ def room_detail(request, room_id):
     return render(request, 'room.html', {'room': r, 'matches': m})
 
 def matches_list(request):
-    m = Match.objects.all().order_by('tournament_round')
+    view_format = request.GET.get('format', 'timeslot')
+    if view_format == 'bracket':
+        m = Match.objects.all().order_by('tournament_round', 'timeslot', 'match_number')
+    elif view_format == 'room':
+        m = Match.objects.all().order_by('room', 'timeslot', 'match_number')
+    else:
+        m = Match.objects.all().order_by('timeslot', 'match_number')
+
     incomplete = m.filter(is_complete=False)
     complete = m.filter(is_complete=True)
     return render(request, 'matches.html', {'complete_matches': complete, 'incomplete_matches': incomplete})
@@ -111,4 +118,4 @@ class MatchCreateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
             return self.request.user.is_staff # Only staff can access this view
 
     def get_success_url(self):
-        return reverse('team_create')
+        return reverse('match_create')
