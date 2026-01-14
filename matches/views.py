@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Region, Team, Room, Match
 from .forms import TeamForm, RoomForm, MatchForm
 from django.http import Http404
@@ -6,6 +6,7 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic.edit import CreateView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth import authenticate, login
 
 # Create your views here.
 def home(request):
@@ -81,6 +82,20 @@ def scorekeeper(request):
     """View for scorekeepers, allowing them to enter results for active games"""
     m = Match.objects.all().filter(is_complete=False).order_by('match_number')
     return render(request, 'scorekeeper.html', {'matches': m})
+
+def profile_view(request):
+    return redirect('home')
+
+# def login_view(request):
+#     username = request.POST["username"]
+#     password = request.POST["password"]
+#     user = authenticate(request, username=username, password=password)
+#     if user is not None:
+#         login(request, user)
+#         return reverse('home')
+#     else:
+#         # Give an invalid login
+#         return reverse('login')
 
 # Form views
 
