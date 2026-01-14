@@ -3,81 +3,31 @@
 {% block title %}Home - My Site{% endblock %}
 
 {% block content %}
-<p>This is the home page.</p>
+<p>Welcome to the home page for the invitational tournament! Here's some things you can do:</p>
 
+<div class="row row-cols-1 row-cols-md-3 g-4"> 
+  <div class="col d-flex align-items-stretch"> 
+    <div class="card">
+      <h5 class="card-title m-3"> View Matches </h5>
+      <p class="card-body"> View upcoming and completed matches, sorted by time, bracket, or room </p>
+      <a class="btn btn-primary m-3" href="{% url 'matches_list' %}"> Matches </a>
+    </div>
+  </div>
+  <div class="col d-flex align-items-stretch"> 
+    <div class="card">
+      <h5 class="card-title m-3"> Find Teams </h5>
+      <p class="card-body"> Find your team to determine where their matches will be </p>
+      <a class="btn btn-primary m-3" href="{% url 'teams_list' %}"> Teams </a>
+    </div>
+  </div>
+  <div class="col d-flex align-items-stretch"> 
+    <div class="card">
+      <h5 class="card-title m-3"> View Bracket </h5>
+      <p class="card-body"> This functionality may or may not be coming soon. </p>
+      <a class="btn btn-primary m-3"> Bracket </a>
+    </div>
+  </div>
+</div>
 
-
-<table class="table table-hover">
-  <thead>
-    <tr>
-      <th scope="col">Type</th>
-      <th scope="col">Column heading</th>
-      <th scope="col">Column heading</th>
-      <th scope="col">Column heading</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr class="table-active">
-      <th scope="row">Active</th>
-      <td>Column content</td>
-      <td>Column content</td>
-      <td>Column content</td>
-    </tr>
-    <tr>
-      <th scope="row">Default</th>
-      <td>Column content</td>
-      <td>Column content</td>
-      <td>Column content</td>
-    </tr>
-    <tr class="table-primary">
-      <th scope="row">Primary</th>
-      <td>Column content</td>
-      <td>Column content</td>
-      <td>Column content</td>
-    </tr>
-    <tr class="table-secondary">
-      <th scope="row">Secondary</th>
-      <td>Column content</td>
-      <td>Column content</td>
-      <td>Column content</td>
-    </tr>
-    <tr class="table-success">
-      <th scope="row">Success</th>
-      <td>Column content</td>
-      <td>Column content</td>
-      <td>Column content</td>
-    </tr>
-    <tr class="table-danger">
-      <th scope="row">Danger</th>
-      <td>Column content</td>
-      <td>Column content</td>
-      <td>Column content</td>
-    </tr>
-    <tr class="table-warning">
-      <th scope="row">Warning</th>
-      <td>Column content</td>
-      <td>Column content</td>
-      <td>Column content</td>
-    </tr>
-    <tr class="table-info">
-      <th scope="row">Info</th>
-      <td>Column content</td>
-      <td>Column content</td>
-      <td>Column content</td>
-    </tr>
-    <tr class="table-light">
-      <th scope="row">Light</th>
-      <td>Column content</td>
-      <td>Column content</td>
-      <td>Column content</td>
-    </tr>
-    <tr class="table-dark">
-      <th scope="row">Dark</th>
-      <td>Column content</td>
-      <td>Column content</td>
-      <td>Column content</td>
-    </tr>
-  </tbody>
-</table>
 
 {% endblock %}

@@ -39,3 +39,13 @@ class MatchForm(forms.ModelForm):
             'home_team', 'home_source_match', 'home_source_take_winner',
             'away_team', 'away_source_match', 'away_source_take_winner'
         ]
+
+class MatchResultForm(forms.ModelForm):
+    class Meta:
+        model = Match
+        fields = ['home_score', 'away_score', 'is_complete']
+        widgets = {
+            'home_score': forms.NumberInput(attrs={'class': 'form-control'}),
+            'away_score': forms.NumberInput(attrs={'class': 'form-control'}),
+            'is_complete': forms.CheckboxInput(attrs={'class': 'form-check-input'})
+        }

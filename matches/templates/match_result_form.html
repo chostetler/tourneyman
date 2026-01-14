@@ -1,0 +1,32 @@
+
+{% extends "base.html" %}
+
+{% block title %} Add Match {% endblock %}
+
+{% block content %}
+
+<form method="post" class = "card shadow-sm">
+    {% csrf_token %}
+    <div class="card-header bg-dark text-white">
+        <h5 class="mb-0">Reporting score for match #{{ match.match_number|default:"New" }}</h5>
+    </div>
+    <div class="card-body">
+        {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+                <div class="alert alert-danger">{{ error }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="row m-1"> 
+            Location: {{ match.room.name }} 
+            Round: {{ match.tournament_round.name }}
+            Time: {{ match.timeslot }}
+        </div>
+        <div class="row mb-4 border-bottom pb-3">
+
+        </div>
+    </div>
+
+</form>
+
+{% endblock %}

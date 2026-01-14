@@ -9,6 +9,10 @@
 <a href="?format=room" class="btn btn-primary"> Group by room </a>
 <hr>
 
+{% if user.is_staff %}
+<a href="{% url 'match_create' %}" class="btn btn-success"> Add match </a>
+{% endif %}
+
 {% if request.GET.format == 'bracket'%}
     {% regroup incomplete_matches by bracket as round_list %}
 {% elif request.GET.format == 'room' %}

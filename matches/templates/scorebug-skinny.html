@@ -2,7 +2,9 @@
     <div class="list-group-item border rounded shadow-sm p-0">
         <div class="row g-0 align-items-center py-2 px-3">
             <div class="col-2 border-end text-center">
-                <div class="fw-bold text-primary" style="line-height: 1.1;">#{{ match.match_number }}</div>
+                <div class="fw-bold text-primary" style="line-height: 1.1;">
+                    #{{ match.match_number }}
+                </div>
                 <div class="text-muted small" style="font-size: 0.7rem;">{{ match.tournament_round }}</div>
             </div>
 
@@ -41,22 +43,27 @@
             </div>
         </div>
 
-        {% if match.winner_destination or match.loser_destination %}
+
+        {% if match.winner_destination or match.loser_destination or user.is_staff%}
         <div class="bg-light border-top py-1 px-3" style="font-size: 0.7rem;">
+            {% if user.is_staff %}
+            <a class="btn btn-secondary btn-sm mx-2" href="{% url 'match_result' match.pk %}">Record Results</a>
+            {% endif %}
             {% if match.winner_destination %}
-            <span class="text-muted">Winner:</span> 
+            <span class="text-muted">Winner goes to </span> 
             <a href="{% url 'match_detail' match.winner_destination.id %}" class="text-decoration-none me-2">
-                {{ match.winner_destination }}
+                #{{ match.winner_destination.match_number }}
             </a>
             {% endif %}
             
             {% if match.loser_destination %}
-            <span class="text-muted border-start ps-2">Loser:</span> 
+            <span class="text-muted border-start ps-2">Loser goes to </span> 
             <a href="{% url 'match_detail' match.loser_destination.id %}" class="text-decoration-none">
-                {{ match.loser_destination }}
+                #{{ match.loser_destination.match_number }}
             </a>
             {% endif %}
         </div>
         {% endif %}
+
     </div>
 </div>

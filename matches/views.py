@@ -1,11 +1,12 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Region, Team, Room, Match
-from .forms import TeamForm, RoomForm, MatchForm
+from .forms import TeamForm, RoomForm, MatchForm, MatchResultForm
 from django.http import Http404
 from django.urls import reverse_lazy, reverse
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth import authenticate, login
 
 # Create your views here.
@@ -86,6 +87,24 @@ def scorekeeper(request):
 def profile_view(request):
     return redirect('home')
 
+def is_bracket_manager(user):
+    return user.groups.filter(name='Bracket Managers').exists() or user.is_staff
+
+@user_passes_test(is_bracket_manager)
+def match_result(request, match_id):
+    match = get_object_or_404(Match, id=match_id)
+    
+    if request.method == 'POST':
+        form = MatchResultForm(request.POST, instance=match)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = MatchResultForm(instance=match)
+    
+    return render(request, 'match_result_form.html', {'match': match})
+
+
 # def login_view(request):
 #     username = request.POST["username"]
 #     password = request.POST["password"]
@@ -134,3 +153,4 @@ class MatchCreateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
 
     def get_success_url(self):
         return reverse('match_create')
+
