@@ -5,6 +5,15 @@
 
 {% block content %}
 
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+{% endif %}
+
 <div class="col-12 col-lg-10 mx-auto mt-4">
     <form method="post" class="card shadow-sm">
         {% csrf_token %}
@@ -18,35 +27,49 @@
                     <div class="alert alert-danger">{{ error }}</div>
                 {% endfor %}
             {% endif %}
-
-            <div class="row mb-4 border-bottom pb-3">
-                <div class="col-md-3">{{ form.match_number.label_tag }} {{ form.match_number }}</div>
-                <div class="col-md-3">{{ form.tournament_round.label_tag }} {{ form.tournament_round }}</div>
-                <div class="col-md-3">{{ form.timeslot.label_tag }} {{ form.timeslot }}</div>
-                <div class="col-md-3">{{ form.room.label_tag }} {{ form.room }}</div>
+            <div class="row border-bottom">
+                <div class="col-md-8">
+                    <div class="row m-2">
+                        <div class="col"> {{ form.match_number.label_tag }} </div>
+                        <div class="col"> {{ form.match_number }} </div>
+                    </div>
+                    <div class="row m-2">
+                        <div class="col"> {{ form.tournament_round.label_tag }} </div>
+                        <div class="col"> {{ form.tournament_round }} </div>
+                    </div>
+                    <div class="row m-2">
+                        <div class="col"> {{ form.timeslot.label_tag }} </div>
+                        <div class="col"> {{ form.timeslot }} </div>
+                    </div>
+                    <div class="row m-2">
+                        <div class="col"> {{ form.room.label_tag }} </div>
+                        <div class="col"> {{ form.room }} </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-6 border-end">
-                    <h6 class="fw-bold text-primary">Home Slot</h6>
-                    <div class="mb-3">
+            <div class="row m-2">
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <h6 class="fw-bold text-primary">Home Slot</h6>
                         <label class="small text-muted">Fixed Team</label>
                         {{ form.home_team }}
                     </div>
-                    <div class="p-2 bg-light rounded">
+                    <div class="col-md-6 p-2 bg-light rounded">
                         <label class="small text-muted">OR From Match</label>
                         {{ form.home_source_match }}
                         <div class="mt-2">{{ form.home_source_take_winner }} <span class="small">Take Winner?</span></div>
                     </div>
                 </div>
+                <hr>
 
-                <div class="col-md-6">
-                    <h6 class="fw-bold ">Away Slot</h6>
-                    <div class="mb-3">
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <h6 class="fw-bold ">Away Slot</h6>
                         <label class="small text-muted">Fixed Team</label>
                         {{ form.away_team }}
                     </div>
-                    <div class="p-2 bg-light rounded">
+                    <div class="col-md-6 p-2 bg-light rounded">
                         <label class="small text-muted">OR From Match</label>
                         {{ form.away_source_match }}
                         <div class="mt-2">{{ form.away_source_take_winner }} <span class="small">Take Winner?</span></div>

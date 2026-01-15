@@ -39,6 +39,14 @@ class MatchForm(forms.ModelForm):
             'home_team', 'home_source_match', 'home_source_take_winner',
             'away_team', 'away_source_match', 'away_source_take_winner'
         ]
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if not self.instance.pk: # If we have a new record...
+            used_numbers = set(Match.objects.values_list('match_number', flat=True))
+            next_num = 1
+            while next_num in used_numbers:
+                next_num += 1
+            self.fields['match_number'].initial = next_num
 
 class MatchResultForm(forms.ModelForm):
     class Meta:

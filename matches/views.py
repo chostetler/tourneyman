@@ -146,7 +146,7 @@ class MatchCreateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
     model = Match
     form_class = MatchForm
     template_name = 'match_form.html'
-    success_message = "%(match_number)s was created successfully!"
+    success_message = "Match %(match_number)s was created successfully!"
 
     def test_func(self):
             return self.request.user.is_staff # Only staff can access this view
