@@ -65,11 +65,11 @@ class Timeslot(models.Model):
     class Meta:
         ordering = ['start_time']
 
-def __str__(self):
-    local_time = timezone.localtime(self.start_time)
-    # %b = Short month (Mar), %-d = Day (15), %-I:%M%p = Time (2:40PM)
-    formatted = local_time.strftime("%b %-d %-I:%M%p")
-    return formatted.lower().replace('m', '')
+    def __str__(self):
+        local_time = timezone.localtime(self.start_time)
+        # %b = Short month (Mar), %-d = Day (15), %-I:%M%p = Time (2:40PM)
+        formatted = local_time.strftime("%b %-d %-I:%M%p")
+        return formatted.lower().replace('m', '')
 
 class TournamentBracket(models.Model):
     name = models.CharField(unique=True, max_length=100, null=False, blank=False)
