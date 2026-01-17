@@ -49,11 +49,32 @@ class MatchForm(forms.ModelForm):
             self.fields['match_number'].initial = next_num
 
 class MatchResultForm(forms.ModelForm):
+    outcome = forms.ChoiceField(
+        widget=forms.RadioSelect,
+        required=True,
+        label="Match Outcome"
+    )
+
     class Meta:
         model = Match
         fields = ['home_score', 'away_score', 'is_complete']
         widgets = {
-            'home_score': forms.NumberInput(attrs={'class': 'form-control'}),
-            'away_score': forms.NumberInput(attrs={'class': 'form-control'}),
+            'home_score': forms.NumberInput(attrs={'class': 'form-control', 'id': 'id_home_score'}),
+            'away_score': forms.NumberInput(attrs={'class': 'form-control', 'id': 'id_away_score'}),
             'is_complete': forms.CheckboxInput(attrs={'class': 'form-check-input'})
         }
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance:
+            self.fields['outcome'].choices = [
+                ('home_win', f'{self.instance.home_team.name} wins'),
+                ('away_win', f'{self.instance.away_team.name} wins'),
+                ('no_contest', 'No contest'),
+                ('tie', 'Tie')
+            ]
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        instance.is_complete = True
+        if commit:
+            instance.save()
+        return instance

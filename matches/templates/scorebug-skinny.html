@@ -9,7 +9,7 @@
             </div>
 
             <div class="col-9 col-md-7 px-2 px-md-3">
-                <div class="d-flex justify-content-between align-items-center mb-1 rounded px-3" style="{% if match.is_won_by_home_team %} background-color: #EFE {% endif %}">
+                <div class="d-flex justify-content-between align-items-center mb-1 rounded px-3" style="">
                     <div class="text-truncate small">
                         <span style="font-size:0.7rem; min-width: 1.5rem; display:inline-block">
                         {% if match.home_source_match_short %}
@@ -19,7 +19,7 @@
                         </span>
                         {% include "team-badge.html" with team=match.home_team %}
                     </div>
-                    <span class="fw-bold ms-2">
+                    <span class="fw-bold ms-2 px-1 rounded" style="{% if match.is_won_by_home_team %} background-color: #DFD {% endif %}">
                         {% if match.home_score %}
                         {{ match.home_score }}
                         {% else %}
@@ -27,7 +27,7 @@
                         {% endif %}
                     </span>
                 </div>
-                <div class="d-flex justify-content-between align-items-center mb-1 rounded px-3" style="{% if match.is_won_by_away_team %} background-color: #EFE {% endif %}">
+                <div class="d-flex justify-content-between align-items-center mb-1 rounded px-3" style="">
                     <div class="text-truncate small">
                         {% if match.away_source_match_short %}
                             <a class="small text-muted em" style="font-size:0.7rem; min-width: 1.5rem; display:inline-block" href="{% url 'match_detail' match.away_source_match.id%}">{{match.away_source_match_short}}</a>
@@ -36,7 +36,7 @@
                         {% endif %}
                         {% include "team-badge.html" with team=match.away_team %}
                     </div>
-                    <span class="fw-bold ms-2">
+                    <span class="fw-bold ms-2 px-1 rounded" style="{% if match.is_won_by_away_team %} background-color: #DFD {% endif %}">
                         {% if match.away_score %}
                         {{ match.away_score }}
                         {% else %}

@@ -1,6 +1,6 @@
 from django.urls import path, include
 from . import views
-from .views import TeamCreateView, RoomCreateView, MatchCreateView 
+from .views import TeamCreateView, RoomCreateView, MatchCreateView, MatchResultView
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -22,7 +22,7 @@ urlpatterns = [
     path('teams/add/', TeamCreateView.as_view(), name='team_create'),
     path('rooms/add/', RoomCreateView.as_view(), name='room_create'),
     path('matches/add/', MatchCreateView.as_view(), name='match_create'),
-    path('matches/result/<int:match_id>/', views.match_result, name='match_result'),
+    path('matches/result/<int:pk>/', MatchResultView.as_view(), name='match_result'),
 
     # Edit forms
     # path('matches/edit/<int:pk>', MatchUpdateView.as_view(), name='match_edit')

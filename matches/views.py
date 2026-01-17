@@ -154,3 +154,14 @@ class MatchCreateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
     def get_success_url(self):
         return reverse('match_create')
 
+class MatchResultView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
+    model = Match
+    form_class = MatchResultForm
+    template_name = "match_result_form.html"
+    success_message = "Match saved!"
+
+    def test_func(self):
+            return self.request.user.is_staff # Only staff can access this view
+
+    def get_success_url(self):
+        return reverse('matches_list')

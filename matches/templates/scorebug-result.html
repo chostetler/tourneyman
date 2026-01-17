@@ -1,8 +1,14 @@
-<div class="row shadow-sm rounded m-0.5 p-1 border">
-    <div class="col-1"><span class="badge text-bg-primary">{{ match.match_number }} </span> </div>
-    <div class="col-4 text-end"> {% include "team-badge.html" with team=match.home_team %}</div>
-    <div class="col-1 border rounded text-center fw-bold"> {{ match.home_score | default:"TBD"}} </div>
-    <div class="col-1 text-center"> vs. </div>
-    <div class="col-1 border rounded text-center fw-bold"> {{ match.away_score | default:"TBD" }} </div>
-    <div class="col-4 text-start"> {% include "team-badge.html" with team=match.away_team %}</div>
+<div class="mx-auto col-12">
+    <div class="row shadow-sm rounded m-0.5 p-1 border">
+        <div class="col-1"><span class="badge text-bg-primary">{{ match.match_number }} </span> </div>
+        <div class="col-3 text-end"> {% include "team-badge.html" with team=match.home_team %}</div>
+        <div class="col-2 border rounded text-center fw-bold" style="{% if match.is_won_by_home_team %} background-color: #DFD {% endif %}"> 
+            <span class="d-inline-block">{{ match.home_score | default:"TBD"}} </span>
+        </div>
+        <div class="d-none d-md-block col-md-1 text-center"> vs. </div>
+        <div class="col-2 border rounded text-center fw-bold" style="{% if match.is_won_by_away_team %} background-color: #DFD {% endif %}"> 
+            <span>{{ match.away_score | default:"TBD" }} </span>
+        </div>
+        <div class="col-3 text-start"> {% include "team-badge.html" with team=match.away_team %}</div>
+    </div>
 </div>

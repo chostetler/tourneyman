@@ -17,16 +17,83 @@
             {% endfor %}
         {% endif %}
 
-        <div class="row m-1"> 
-            Location: {{ match.room.name }} 
-            Round: {{ match.tournament_round.name }}
-            Time: {{ match.timeslot }}
-        </div>
-        <div class="row mb-4 border-bottom pb-3">
+        <div class="row gx-2">
+            <div class="col-md-4 border rounded" style="border-right: 2px">
+                <div class="row m-2">
+                    <div class="col"> Location: </div>
+                    <div class="col"> {{ match.room.name }} </div>
+                </div>
+                <div class="row m-2">
+                    <div class="col"> Round: </div>
+                    <div class="col"> {{ match.tournament_round.name }} </div>
+                </div>
+                <div class="row m-2">
+                    <div class="col"> Time: </div>
+                    <div class="col"> {{ match.timeslot }} </div>
+                </div>
+            </div>
+            <div class="col-md-8 border rounded"> 
+                <div class="row m-2 align-items-center">
+                    <span class="col-4 text-end"> {{ match.home_team.name }} </span>
+                    <span class="col"> {{ form.home_score }} </span>
+                </div>
+                <div class="row m-2 align-items-center">
+                    <span class="col-4 text-end"> {{ match.away_team.name }} </span>
+                    <span class="col"> {{ form.away_score }} </span>
+                </div>
 
+            </div>
         </div>
+        <div>
+        {% for radio in form.outcome %}
+            <div class="form-check">
+                {{ radio.tag }}
+                <label class="form-check-label" for="{{ radio.id_for_label }}">
+                    {{ radio.choice_label }}
+                </label>
+            </div>
+        {% endfor %}
+        </div>
+
+
+    </div>
+    <div class="card-footer text-end">
+        <button type="submit" class="btn btn-primary">Submit Score</button>
     </div>
 
 </form>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const homeInput = document.getElementById('id_home_score');
+    const awayInput = document.getElementById('id_away_score');
+    
+    // Selects radio buttons by their value (defined in your form choices)
+    const setOutcome = (value) => {
+        const radio = document.querySelector(`input[name="outcome"][value="${value}"]`);
+        if (radio) radio.checked = true;
+    };
+
+    function updateOutcome() {
+        const homeScore = parseInt(homeInput.value);
+        const awayScore = parseInt(awayInput.value);
+
+        // Don't change selection if fields are empty
+        if (isNaN(homeScore) || isNaN(awayScore)) return;
+
+        if (homeScore > awayScore) {
+            setOutcome('home_win');
+        } else if (awayScore > homeScore) {
+            setOutcome('away_win');
+        } else {
+            setOutcome('tie');
+        }
+    }
+
+    homeInput.addEventListener('input', updateOutcome);
+    awayInput.addEventListener('input', updateOutcome);
+});
+</script>
 
 {% endblock %}
