@@ -4,9 +4,9 @@
 
 {% block content %}
 
-<a href="?format=timeslot" class="btn btn-primary"> Group by start time </a>  
-<a href="?format=bracket" class="btn btn-primary"> Group by bracket </a> 
-<a href="?format=room" class="btn btn-primary"> Group by room </a>
+<a href="?format=timeslot" class="btn btn-primary m-1"> Group by start time </a>  
+<a href="?format=bracket" class="btn btn-primary m-1"> Group by bracket </a> 
+<a href="?format=room" class="btn btn-primary m-1"> Group by room </a>
 <hr>
 
 {% if user.is_staff %}
@@ -28,7 +28,7 @@
     <h4> {{round.grouper}} </h4>
     <div class="list-group" style="margin: 10px">
         {% for match in round.list %}
-            {% include "scorebug-skinny.html" %}
+            {% include "scorebug-result.html" %}
         {% endfor %}
     </div>
 {%endfor%}

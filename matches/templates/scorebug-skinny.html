@@ -1,69 +1,73 @@
 <div class="col-12 col-lg-8 mx-auto mb-3">
     <div class="list-group-item border rounded shadow-sm p-0">
         <div class="row g-0 align-items-center py-2 px-3">
-            <div class="col-2 border-end text-center">
+            <div class="col-3 col-md-2 border-end text-center">
                 <div class="fw-bold text-primary" style="line-height: 1.1;">
                     #{{ match.match_number }}
                 </div>
                 <div class="text-muted small" style="font-size: 0.7rem;">{{ match.tournament_round }}</div>
             </div>
 
-            <div class="col-6 px-2 px-md-3">
-                <div class="d-flex justify-content-between align-items-center mb-1">
+            <div class="col-9 col-md-7 px-2 px-md-3">
+                <div class="d-flex justify-content-between align-items-center mb-1 rounded px-3" style="{% if match.is_won_by_home_team %} background-color: #EFE {% endif %}">
                     <div class="text-truncate small">
+                        <span style="font-size:0.7rem; min-width: 1.5rem; display:inline-block">
                         {% if match.home_source_match_short %}
                             <a class="small text-muted" style="font-size:0.7rem; min-width: 1.5rem; display:inline-block" href="{% url 'match_detail' match.home_source_match.id%}">{{match.home_source_match_short}}</a>
                         {% else %}
-                            <span class="" style="font-size:0.7rem; min-width: 1.5rem; display:inline-block" > </span>
                         {% endif %}
+                        </span>
                         {% include "team-badge.html" with team=match.home_team %}
                     </div>
                     <span class="fw-bold ms-2">{{ match.home_score|default:"0" }}</span>
                 </div>
-                <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex justify-content-between align-items-center mb-1 rounded px-3" style="{% if match.is_won_by_away_team %} background-color: #EFE {% endif %}">
                     <div class="text-truncate small">
                         {% if match.away_source_match_short %}
                             <a class="small text-muted em" style="font-size:0.7rem; min-width: 1.5rem; display:inline-block" href="{% url 'match_detail' match.away_source_match.id%}">{{match.away_source_match_short}}</a>
                         {% else %}
-                            <span class="" style="font-size:0.7rem; min-width: 1.5rem; display:inline-block" > </span>
+                            <span style="font-size:0.7rem; min-width: 1.5rem; display:inline-block"></span>
                         {% endif %}
                         {% include "team-badge.html" with team=match.away_team %}
                     </div>
                     <span class="fw-bold ms-2">{{ match.away_score|default:"0" }}</span>
                 </div>
-            </div>
 
-            <div class="col-4 text-end border-start ps-2 ps-md-3" style="font-size: 0.75rem;">
+            </div>
+            <div class="col-md-2 text-end border-start ps-2 ps-md-3 d-none d-md-block" style="font-size: 0.75rem;">
                 <div class="text-truncate text-muted">
                     <i class="fa-solid fa-location-dot fa-xs"></i> {{ match.room.name }}
                 </div>
                 <div class="text-dark mt-1">
                     <i class="fa-solid fa-clock fa-xs"></i> {{ match.start_time|date:"D. g:i a" }}
                 </div>
-            </div>
+            </div> 
         </div>
 
+        <div class="d-md-none mt-2 pt-1 border-top  justify-content-between text-muted" style="font-size: 0.7rem;">
+            {% if match.room %}
+            <span class="mx-2"><i class="fa-solid fa-location-dot fa-xs"></i> {{ match.room.name }}</span>
+            {% endif %}
+            {% if match.room and match.timeslot %} | {% endif %}
+            {% if match.timeslot%}
+            <span class="mx-2"><i class="fa-solid fa-clock fa-xs"></i> {{ match.start_time|date:"D. g:i a" }}</span>
+            {% endif %}
+        </div>
 
-        {% if match.winner_destination or match.loser_destination or user.is_staff%}
+        {% if match.winner_destination or match.loser_destination or user.is_staff %}
         <div class="bg-light border-top py-1 px-3" style="font-size: 0.7rem;">
             {% if user.is_staff %}
             <a class="btn btn-secondary btn-sm mx-2" href="{% url 'match_result' match.pk %}">Record Results</a>
             {% endif %}
             {% if match.winner_destination %}
-            <span class="text-muted">Winner goes to </span> 
-            <a href="{% url 'match_detail' match.winner_destination.id %}" class="text-decoration-none me-2">
-                #{{ match.winner_destination.match_number }}
-            </a>
+            <span class="text-muted">Winner to </span> 
+            <a href="{% url 'match_detail' match.winner_destination.id %}" class="text-decoration-none me-2">#{{ match.winner_destination.match_number }}</a>
             {% endif %}
-            
             {% if match.loser_destination %}
-            <span class="text-muted border-start ps-2">Loser goes to </span> 
-            <a href="{% url 'match_detail' match.loser_destination.id %}" class="text-decoration-none">
-                #{{ match.loser_destination.match_number }}
-            </a>
+            <span class="text-muted border-start ps-2">Loser to </span> 
+            <a href="{% url 'match_detail' match.loser_destination.id %}" class="text-decoration-none">#{{ match.loser_destination.match_number }}</a>
             {% endif %}
         </div>
         {% endif %}
-
     </div>
 </div>

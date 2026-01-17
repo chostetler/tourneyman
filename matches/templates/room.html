@@ -10,7 +10,7 @@
 {% if room.map %}
 
 <div class="vw-75 p-3">
-    <img src="{{ room.map.url }}" class="img-fluid">
+    <img src="{{ room.map.url }}" class="img-fluid border" style="max-width: 50%">
 </div>
 
 {% endif %}
@@ -20,7 +20,7 @@
 
 {% for match in matches %}
 
-{% include "scorebug.html" %}
+{% include "scorebug-skinny.html" %}
 
 {% endfor %}
 
