@@ -28,7 +28,7 @@
     <h4> {{round.grouper}} </h4>
     <div class="list-group" style="margin: 10px">
         {% for match in round.list %}
-            {% include "scorebug-result.html" %}
+            {% include "scorebug-skinny.html" %}
         {% endfor %}
     </div>
 {%endfor%}
@@ -38,7 +38,7 @@
 {% if complete_matches %}
     <div class="list-group" style="margin: 10px">
         {% for match in complete_matches %}
-            {% include "scorebug-skinny.html" %}
+            {% include "scorebug-result.html" %}
         {% endfor %}
     </div>
 {% endif %}

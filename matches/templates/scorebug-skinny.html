@@ -19,7 +19,13 @@
                         </span>
                         {% include "team-badge.html" with team=match.home_team %}
                     </div>
-                    <span class="fw-bold ms-2">{{ match.home_score|default:"0" }}</span>
+                    <span class="fw-bold ms-2">
+                        {% if match.home_score %}
+                        {{ match.home_score }}
+                        {% else %}
+                        <span class="fw-light fst-italic"> TBD </span>
+                        {% endif %}
+                    </span>
                 </div>
                 <div class="d-flex justify-content-between align-items-center mb-1 rounded px-3" style="{% if match.is_won_by_away_team %} background-color: #EFE {% endif %}">
                     <div class="text-truncate small">
@@ -30,16 +36,26 @@
                         {% endif %}
                         {% include "team-badge.html" with team=match.away_team %}
                     </div>
-                    <span class="fw-bold ms-2">{{ match.away_score|default:"0" }}</span>
+                    <span class="fw-bold ms-2">
+                        {% if match.away_score %}
+                        {{ match.away_score }}
+                        {% else %}
+                        <span class="fw-light fst-italic"> TBD </span>
+                        {% endif %}
+                    </span>
                 </div>
 
             </div>
             <div class="col-md-2 text-end border-start ps-2 ps-md-3 d-none d-md-block" style="font-size: 0.75rem;">
                 <div class="text-truncate text-muted">
+                {% if match.room %}
                     <i class="fa-solid fa-location-dot fa-xs"></i> {{ match.room.name }}
+                {% endif %}
                 </div>
-                <div class="text-dark mt-1">
+                <div class="text-muted mt-1">
+                {% if match.timeslot%}
                     <i class="fa-solid fa-clock fa-xs"></i> {{ match.start_time|date:"D. g:i a" }}
+                {% endif %}
                 </div>
             </div> 
         </div>

@@ -1,7 +1,7 @@
 {% if team %}
-<span class="border rounded-pill font-weight-bold d-inline-block bg-light shadow-sm">
+<span class="border rounded-pill fw-bold d-inline-block bg-light shadow-sm">
     <a class="m-1" style="color: {{ team.region.color }}; text-decoration: none" href="{% url 'team_detail' team.id %}"> {{ team.display_name }} </a> 
 </span>
 {% else %}
-<span class="border rounded font-weight-bold" style="color: black; text-decoration: none"> TBD </span>
+<span class="font-weight-bold" style="color: black; text-decoration: none"> TBD </span>
 {% endif %}
