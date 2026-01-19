@@ -28,12 +28,14 @@ class TimeslotForm(forms.ModelForm):
         }
 
 class MatchForm(forms.ModelForm):
+    slot_selection = forms.ChoiceField(choices=[])
     class Meta:
         model = Match
         fields = [
             'match_number',
-            'timeslot',
-            'room',
+            # 'timeslot',
+            #  'room',
+            'slot_selection',
             'tournament_round',
             # Match source info
             'home_team', 'home_source_match', 'home_source_take_winner',
@@ -41,12 +43,28 @@ class MatchForm(forms.ModelForm):
         ]
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        taken = Match.objects.values_list('timeslot_id', 'room_id')
+        available_choices = []
+        for ts in Timeslot.objects.all():
+            for rm in Room.objects.all():
+                if (ts.id, rm.id) not in taken:
+                    available_choices.append(
+                        (f"{ts.id}-{rm.id}", f"{ts} (in {rm})")
+                    )
+        self.fields['slot_selection'].choices=available_choices
+
         if not self.instance.pk: # If we have a new record...
             used_numbers = set(Match.objects.values_list('match_number', flat=True))
             next_num = 1
             while next_num in used_numbers:
                 next_num += 1
             self.fields['match_number'].initial = next_num
+    
+    def save(self, commit=True):
+        ts_id, rm_id = self.cleaned_data['slot_selection'].split('-')
+        self.instance.timeslot_id = ts_id
+        self.instance.room_id = rm_id
+        return super().save(commit)
 
 class MatchResultForm(forms.ModelForm):
     outcome = forms.ChoiceField(
