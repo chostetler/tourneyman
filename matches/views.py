@@ -110,7 +110,7 @@ def generate_timeslots_view(request):
         form = GenerateTimeslotsForm(request.POST)
         if form.is_valid():
             timeslots = form.save()
-            messages.success(f'Successfully generated {len(timeslots)} timeslots')
+            messages.success(request, f'Successfully generated {len(timeslots)} timeslots')
             return redirect('matches_list')
     else:
         form = GenerateTimeslotsForm()

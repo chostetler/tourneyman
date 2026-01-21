@@ -1,6 +1,7 @@
 from django import forms
 from .models import Region, Team, Room, Timeslot, Match
 from datetime import datetime, timedelta
+from django.utils import timezone
 
 class RegionForm(forms.ModelForm):
     class Meta:
@@ -121,18 +122,32 @@ class GenerateTimeslotsForm(forms.Form):
     )
 
     def save(self):
-            # Cleaned data is available after form.is_valid() is called in the view
-            data = self.cleaned_data
-            start_dt = datetime.combine(data['start_date'], data['start_time'])
-            interval = data['interval']
-            count = data['count']
+        data = self.cleaned_data
+        start_dt = datetime.combine(data['start_date'], data['start_time'])
+        interval = data['interval']
+        count = data['count']
 
-            timeslots = []
-            for i in range(count):
-                current_time = start_dt + timedelta(minutes=i * interval)
-                # Replace 'Timeslot' with your actual model name
-                timeslots.append(Timeslot(start_time=current_time))
-            
-            # Use bulk_create for efficiency
-            return Timeslot.objects.bulk_create(timeslots)
+        # 1. Generate aware datetimes
+        target_datetimes = []
+        for i in range(count):
+            dt = datetime.combine(data['start_date'], data['start_time']) + timedelta(minutes=i * interval)
+            # Make the datetime aware of your project's timezone
+            if timezone.is_naive(dt):
+                dt = timezone.make_aware(dt)
+            target_datetimes.append(dt)
+
+        # 2. Find existing (Django handles the DB comparison correctly for aware objects)
+        existing = set(
+            Timeslot.objects.filter(start_time__in=target_datetimes)
+            .values_list('start_time', flat=True)
+        )
+
+        # 3. Filter and Bulk Create
+        new_slots = [
+            Timeslot(start_time=dt) 
+            for dt in target_datetimes 
+            if dt not in existing
+        ]
+        
+        return Timeslot.objects.bulk_create(new_slots)
 
