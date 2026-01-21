@@ -15,10 +15,13 @@
 
 {% if request.GET.format == 'bracket'%}
     {% regroup incomplete_matches by bracket as round_list %}
+    {% regroup complete_matches by bracket as round_list_c %}
 {% elif request.GET.format == 'room' %}
     {% regroup incomplete_matches by room as round_list %}
+    {% regroup complete_matches by room as round_list_c %}
 {% else %}
     {% regroup incomplete_matches by timeslot as round_list %}
+    {% regroup complete_matches by timeslot as round_list_c %}
 {% endif %}
 
 
@@ -36,11 +39,16 @@
 
 <h3> Completed Matches </h3>
 {% if complete_matches %}
-    <div class="list-group" style="margin: 10px">
-        {% for match in complete_matches %}
-            {% include "scorebug-result.html" %}
+{% for round in round_list_c %}
+    <h4> {{round.grouper}} </h4>
+    <div class="row gap-1">
+        {% for match in round.list %}
+        <div class="col-auto mx-auto" style="min-width: 20rem">
+            {% include "scorebug-result-two-rows.html" %}
+        </div>
         {% endfor %}
     </div>
+{%endfor%}
 {% endif %}
 
 {% endblock %}

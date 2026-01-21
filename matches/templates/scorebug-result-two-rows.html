@@ -1,0 +1,24 @@
+
+<div>
+    <div class="row rounded mb-1 mx-1 px-1 border">
+        <div class="mx-auto my-1 col-auto border-end">
+            <div class="row px-3"><span class="badge text-bg-primary">{{ match.match_number }} </span></div>
+            <div class="row text-muted text-center small"><span>{{ match.timeslot.start_time |date:"m/d"}} </span></div>
+            <div class="row text-muted text-center small"><span>{{ match.timeslot.start_time |date:"g:i"}} </span></div>
+        </div>
+        <div class="mx-auto col d-flex flex-column justify-content-center">
+            <div class="row row-flex mb-1">
+                <div class="col-9 text-end fs-6 fs-md-5"> {% include "team-badge.html" with team=match.home_team %}</div>
+                <div class="col-3 rounded text-center fw-bold" style="{% if match.is_won_by_home_team %} background-color: #DFD {% endif %}"> 
+                    <span class="d-inline-block">{{ match.home_score | default:"TBD"}} </span>
+                </div>
+            </div>
+            <div class="row row-flex">
+                <div class="col-9 text-end fs-6 fs-md-5"> {% include "team-badge.html" with team=match.away_team %}</div>
+                <div class="col-3 rounded text-center fw-bold" style="{% if match.is_won_by_away_team %} background-color: #DFD {% endif %}"> 
+                    <span>{{ match.away_score | default:"TBD" }} </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
