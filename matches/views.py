@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Region, Team, Room, Match
-from .forms import TeamForm, RoomForm, MatchForm, MatchResultForm
+from .forms import TeamForm, RoomForm, MatchForm, MatchResultForm, GenerateTimeslotsForm
 from django.http import Http404
 from django.urls import reverse_lazy, reverse
 from django.views.generic.edit import CreateView, UpdateView
+from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import user_passes_test
@@ -104,6 +105,17 @@ def match_result(request, match_id):
     
     return render(request, 'match_result_form.html', {'match': match})
 
+def generate_timeslots_view(request):
+    if request.method== 'POST':
+        form = GenerateTimeslotsForm(request.POST)
+        if form.is_valid():
+            timeslots = form.save()
+            messages.success(f'Successfully generated {len(timeslots)} timeslots')
+            return redirect('matches_list')
+    else:
+        form = GenerateTimeslotsForm()
+
+    return render(request, 'timeslot_generation_form.html', {'form': form })
 
 # def login_view(request):
 #     username = request.POST["username"]

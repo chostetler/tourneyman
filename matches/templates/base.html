@@ -26,6 +26,14 @@
 
     <div class="container-md py-3">
         <main>
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
             {% block content %}
             <p>Welcome to my site!</p>
             {% endblock %}

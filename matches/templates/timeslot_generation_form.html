@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %} Generate Time Slots {% endblock %}
+
+{% block content %}
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<div class="col-12 col-lg-10 mx-auto mt-4">
+    <form method="post" class="card shadow-sm">
+        {% csrf_token %}
+        <div class="card-header bg-dark text-white">
+            <h5 class="mb-0">Generate Time slots</h5>
+        </div>
+        
+        <div class="card-body">
+            {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+            <div class="row border-bottom">
+                <div class="col-md-8">
+                    <div class="row m-2">
+                        <div class="col"> {{ form.start_date.label_tag }} </div>
+                        <div class="col"> {{ form.start_date }} </div>
+                    </div>
+                    <div class="row m-2">
+                        <div class="col"> {{ form.start_time.label_tag }} </div>
+                        <div class="col"> {{ form.start_time }} </div>
+                    </div>
+                    <div class="row m-2">
+                        <div class="col"> {{ form.interval.label_tag }} </div>
+                        <div class="col"> {{ form.interval }} </div>
+                    </div>
+                    <div class="row m-2">
+                        <div class="col"> {{ form.count.label_tag }} </div>
+                        <div class="col"> {{ form.count }} </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-footer text-end">
+            <button type="submit" class="btn btn-primary">Generate</button>
+        </div>
+    </form>
+</div>
+
+
+{% endblock %}

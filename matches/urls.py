@@ -23,6 +23,7 @@ urlpatterns = [
     path('rooms/add/', RoomCreateView.as_view(), name='room_create'),
     path('matches/add/', MatchCreateView.as_view(), name='match_create'),
     path('matches/result/<int:pk>/', MatchResultView.as_view(), name='match_result'),
+    path('timeslots/add/', views.generate_timeslots_view, name='timeslots_add')
 
     # Edit forms
     # path('matches/edit/<int:pk>', MatchUpdateView.as_view(), name='match_edit')

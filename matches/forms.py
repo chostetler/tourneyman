@@ -1,5 +1,6 @@
 from django import forms
 from .models import Region, Team, Room, Timeslot, Match
+from datetime import datetime, timedelta
 
 class RegionForm(forms.ModelForm):
     class Meta:
@@ -96,3 +97,42 @@ class MatchResultForm(forms.ModelForm):
         if commit:
             instance.save()
         return instance
+
+class GenerateTimeslotsForm(forms.Form):
+    start_date = forms.DateField(
+        widget=forms.DateInput(attrs={'type': 'date'}),
+        required=True,
+        label="Start date"
+    )
+    start_time = forms.TimeField(
+        widget=forms.TimeInput(attrs={'type': 'time'}),
+        required=True,
+        label="Start time"
+    )
+    interval = forms.IntegerField(
+        widget=forms.NumberInput,
+        required=True,
+        label="Interval (minutes)"
+    )
+    count = forms.IntegerField(
+        widget=forms.NumberInput,
+        required=True,
+        label="# of time slots to generate"
+    )
+
+    def save(self):
+            # Cleaned data is available after form.is_valid() is called in the view
+            data = self.cleaned_data
+            start_dt = datetime.combine(data['start_date'], data['start_time'])
+            interval = data['interval']
+            count = data['count']
+
+            timeslots = []
+            for i in range(count):
+                current_time = start_dt + timedelta(minutes=i * interval)
+                # Replace 'Timeslot' with your actual model name
+                timeslots.append(Timeslot(start_time=current_time))
+            
+            # Use bulk_create for efficiency
+            return Timeslot.objects.bulk_create(timeslots)
+
