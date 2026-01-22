@@ -5,7 +5,6 @@
 {% block content %}
 
 <a href="?format=timeslot" class="btn btn-primary m-1"> Group by start time </a>  
-<a href="?format=bracket" class="btn btn-primary m-1"> Group by bracket </a> 
 <a href="?format=room" class="btn btn-primary m-1"> Group by room </a>
 <hr>
 
@@ -43,9 +42,15 @@
     <h4> {{round.grouper}} </h4>
     <div class="row gap-1">
         {% for match in round.list %}
-        <div class="col-auto mx-auto" style="min-width: 20rem">
+        <div class="col-auto mx-auto d-md-none" style="min-width: 20rem">
             {% include "scorebug-result-two-rows.html" %}
         </div>
+        <div class="col d-none d-md-block">
+            <div class="row" style="min-width: 40rem">
+                {% include "scorebug-result-one-row.html" %}
+            </div>
+        </div>
+
         {% endfor %}
     </div>
 {%endfor%}
